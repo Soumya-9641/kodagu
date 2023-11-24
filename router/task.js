@@ -74,4 +74,48 @@ router.get("/getOneTask/:id",isUser,async (req,res)=>{
         res.status(500).json({ message: 'Registration failed' });
     }
 })
+
+router.delete("/deleteTask/:id",isUser,async (req,res)=>{
+    try{
+        const taskId = req.params.id;
+        const task = await Task.findByIdAndDelete(taskId);
+        if (!task) {
+          return res.status(404).json({ message: 'Task not found' });
+        }
+    
+        res.status(200).json({message:"deleted successfully",deletedtask:task});
+
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ message: 'Registration failed' });
+    }
+})
+
+router.post("/updateTask/:id",isUser,async (req,res)=>{
+    try{
+        const taskId = req.params.id;
+        const {title,description,completionStatus}=req.body;
+       
+        const updates = {};
+
+            if (title) updates.title = title;
+            if (description) updates.description = description;
+
+            // Check if 'completionStatus' is being updated
+            if (completionStatus !== undefined) {
+            updates.completionStatus = completionStatus;
+            //updates.completedAt = completionStatus ? new Date() : null;
+            }
+            const task = await Task.findByIdAndUpdate(taskId, updates, { new: true });
+        if (!task) {
+          return res.status(404).json({ message: 'Task not found' });
+        }
+    
+        res.status(200).json({message:"updated successfully",updatedTask:task});
+
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ message: 'Registration failed' });
+    }
+})
 module.exports=router;
