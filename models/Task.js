@@ -6,6 +6,7 @@ const taskSchema = new mongoose.Schema({
   assignedUser: { type: String },
   dueDate: { type: Date },
   completionStatus: { type: Boolean, default: false },
+  completeAt: { type: Date },
 });
 
 const Task = mongoose.model('Task', taskSchema);

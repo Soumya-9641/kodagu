@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+const dbUrl = process.env.DB_URL;
 
-
-mongoose.connect('mongodb+srv://soumya-9641:soumya@cluster0.y7qxfvq.mongodb.net/kodagu?retryWrites=true&w=majority', {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
